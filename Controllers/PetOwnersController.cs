@@ -16,11 +16,37 @@ namespace pet_hotel.Controllers
             _context = context;
         }
 
-        // This is just a stub for GET / to prevent any weird frontend errors that 
-        // occur when the route is missing in this controller
+        // / GET /api/bakers
         [HttpGet]
-        public IEnumerable<PetOwner> GetPets() {
-            return new List<PetOwner>();
+        public IEnumerable<PetOwner> GetAll()
+        {
+            // Look ma, no SQL queries!
+            return _context.PetOwners;
         }
+
+
+        [HttpGet("{id}")]
+        public ActionResult<PetOwner> GetById(int id) {
+            Console.WriteLine("GET /api/petOwners/:id request received");
+            PetOwner petOwner =  _context.PetOwners
+                .SingleOrDefault(petOwner => petOwner.id == id);
+            
+            // Return a `404 Not Found` if the petOwner doesn't exist
+            if(petOwner is null) {
+                return NotFound();
+                // res.sendStatus(404);
+            }
+            return petOwner;
+        }
+
+    // POST /api/bakers
+    [HttpPost]
+    public PetOwner Post(PetOwner petOwner) 
+    {
+        _context.Add(petOwner);
+        _context.SaveChanges();
+
+        return petOwner;
+    }
     }
 }
