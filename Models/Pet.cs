@@ -33,8 +33,6 @@ namespace pet_hotel
         [ForeignKey("petOwner")]
         public int petOwnerid {get; set;}
 
-        public bool checkedInAt {get; set;}
-
         public PetOwner petOwner {get; set;}
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -42,6 +40,8 @@ namespace pet_hotel
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public PetColorType color{get; set;}
+
+        public static DateTime checkedInAt {get; set;}
 
         // public bool checkedInAt {get; set;}
         // public static DateTime checkedInAt{get; set;}

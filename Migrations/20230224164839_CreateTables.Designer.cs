@@ -9,8 +9,8 @@ using pet_hotel.Models;
 namespace dotnet_bakery.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230223212734_CreatePetOwnerTable")]
-    partial class CreatePetOwnerTable
+    [Migration("20230224164839_CreateTables")]
+    partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,6 +19,33 @@ namespace dotnet_bakery.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+            modelBuilder.Entity("pet_hotel.Pet", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("breed")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("color")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("petOwnerid")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("petOwnerid");
+
+                    b.ToTable("Pets");
+                });
 
             modelBuilder.Entity("pet_hotel.PetOwner", b =>
                 {
@@ -38,6 +65,17 @@ namespace dotnet_bakery.Migrations
                     b.HasKey("id");
 
                     b.ToTable("PetOwners");
+                });
+
+            modelBuilder.Entity("pet_hotel.Pet", b =>
+                {
+                    b.HasOne("pet_hotel.PetOwner", "petOwner")
+                        .WithMany()
+                        .HasForeignKey("petOwnerid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("petOwner");
                 });
 #pragma warning restore 612, 618
         }

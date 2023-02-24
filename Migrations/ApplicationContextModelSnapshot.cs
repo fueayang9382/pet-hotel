@@ -28,9 +28,6 @@ namespace dotnet_bakery.Migrations
                     b.Property<int>("breed")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("checkedInAt")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("color")
                         .HasColumnType("integer");
 
